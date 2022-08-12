@@ -1,30 +1,26 @@
-import type { AppProps } from "next/app";
-import "../styles/globals.scss";
-import NextHead from "next/head";
-import {
-  getInstalledInjectedConnectors,
-  StarknetProvider,
-} from "@starknet-react/core";
+import type { AppProps } from 'next/app'
+import NextHead from 'next/head'
+import { getInstalledInjectedConnectors, StarknetProvider } from '@starknet-react/core'
 import {
   WagmiConfig,
   createClient,
   configureChains,
   defaultChains,
   chain,
-} from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
+} from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon],
-  [publicProvider()]
-);
+  [publicProvider()],
+)
 
 const client = createClient({
   autoConnect: false,
   provider,
-});
+})
 function MyApp({ Component, pageProps }: AppProps) {
-  const connectors = getInstalledInjectedConnectors();
+  const connectors = getInstalledInjectedConnectors()
 
   return (
     <WagmiConfig client={client}>
@@ -35,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </StarknetProvider>
     </WagmiConfig>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

@@ -3,7 +3,6 @@ import type { NextPage } from "next";
 import { useMemo, useState } from "react";
 import { toBN } from "starknet/dist/utils/number";
 import { useAccount } from "wagmi";
-import AccountModal from "~/components/AccountModal/accountModal";
 import ConnectMetamask from "~/components/ConnectMetamask/connectMetamask";
 import { ConnectWallet } from "~/components/ConnectWallet";
 import { IncrementCounter } from "~/components/IncrementCounter";
@@ -35,7 +34,7 @@ const Home: NextPage = () => {
       {/* <h2>Wallet</h2>
       <ConnectWallet /> */}
       <ConnectMetamask />
-      {isConnected && <AccountModal />}
+
       {/* <h2>Counter Contract</h2>
       <p>Address: {counter?.address}</p>
       <p>Value: {counterValue}</p>
