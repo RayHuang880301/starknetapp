@@ -1,0 +1,25 @@
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('../assets/cosmos.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  // background: black;
+}
+
+.cardBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .cardBox {
+    flex-wrap: wrap;
+  }
+}
