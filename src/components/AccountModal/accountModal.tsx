@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import React from "react";
 import styles from "../AccountModal/accountModal.module.scss";
 import Authentication from "../Authentication/authentication";

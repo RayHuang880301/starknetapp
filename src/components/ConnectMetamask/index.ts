@@ -9,4 +9,4 @@ import dynamic from 'next/dynamic'
  * Solve this issue by wrapping the "real" connect wallet component in
  * a dynamic component that is only rendered in the browser.
  */
-export const ConnectWallet = dynamic(() => import('./connectMetamask'), { ssr: false })
+export const ConnectMetamask = dynamic(() => import('./connectMetamask'), { ssr: false })

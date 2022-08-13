@@ -1,10 +1,11 @@
 import { useStarknetCall } from "@starknet-react/core";
 import type { NextPage } from "next";
-import { useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+import { useMemo, useState, StrictMode } from "react";
 import { toBN } from "starknet/dist/utils/number";
 import { useAccount } from "wagmi";
 import AccountModal from "~/components/AccountModal/accountModal";
-import ConnectMetamask from "~/components/ConnectMetamask/connectMetamask";
+import { ConnectMetamask } from "~/components/ConnectMetamask";
 import { ConnectWallet } from "~/components/ConnectWallet";
 import { IncrementCounter } from "~/components/IncrementCounter";
 import MintCard from "~/components/MintCard/mintCard";
@@ -37,13 +38,14 @@ const Home: NextPage = () => {
       {/* <h2>Wallet</h2>
       <ConnectWallet /> */}
       <ConnectMetamask />
-      {/* {isConnected && <AccountModal />} */}
-      {isConnected && (
+
+      {isConnected && <AccountModal />}
+      {/* {isConnected && (
         <div className={styles.cardBox}>
           <ProfileCard />
           <MintCard />
         </div>
-      )}
+      )} */}
       {/* <h2>Counter Contract</h2>
       <p>Address: {counter?.address}</p>
       <p>Value: {counterValue}</p>
