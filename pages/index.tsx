@@ -35,8 +35,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.section}>
-      {/* <h2>Wallet</h2>
-      <ConnectWallet /> */}
+      {/* <ConnectWallet /> */}
       <ConnectMetamask />
 
       {isConnected && <AccountModal />}
@@ -46,18 +45,24 @@ const Home: NextPage = () => {
           <MintCard />
         </div>
       )} */}
-      {/* <h2>Counter Contract</h2>
-      <p>Address: {counter?.address}</p>
-      <p>Value: {counterValue}</p>
-      <p>
-        <span>
-          Refresh value at every block{' '}
-          <input type="checkbox" checked={watch} onChange={(evt) => setWatch(evt.target.checked)} />
-        </span>
-      </p>
-      <IncrementCounter />
-      <h2>Recent Transactions</h2>
-      <TransactionList /> */}
+      {/* <div>
+        <h2>Counter Contract</h2>
+        <p>Address: {counter?.address}</p>
+        <p>Value: {counterValue}</p>
+        <p>
+          <span>
+            Refresh value at every block{" "}
+            <input
+              type="checkbox"
+              checked={watch}
+              onChange={(evt) => setWatch(evt.target.checked)}
+            />
+          </span>
+        </p>
+        <IncrementCounter />
+        <h2>Recent Transactions</h2>
+        <TransactionList />
+      </div> */}
     </div>
   );
 };

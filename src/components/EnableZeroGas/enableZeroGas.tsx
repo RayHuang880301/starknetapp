@@ -11,8 +11,10 @@ export default function EnableZeroGas() {
         <BsLightningChargeFill className={styles.icon} />
       </div>
       <div className={styles.content}>
-        <button className={styles.btn}>Enable zero gas fee</button>
-        <h6>One time signature to authenticate your account</h6>
+        <button className={styles.btn}>
+          ②&nbsp;&nbsp;&nbsp;Enable zero gas fee
+        </button>
+        <h6>Active zero gas fee function for your hyper account </h6>
       </div>
     </div>
   );

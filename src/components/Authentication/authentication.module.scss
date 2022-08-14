@@ -32,6 +32,30 @@
   cursor: pointer;
 }
 
+.btnEnable {
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);;
+  box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: default;
+}
+
+.btnCreated {
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  color: white;
+  background: #00D6C1;
+  box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: default;
+}
+
 .btn:hover {
   background: #5BA1FD;
 }

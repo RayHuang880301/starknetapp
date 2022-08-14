@@ -1,14 +1,17 @@
-import { useStarknet, useStarknetInvoke } from '@starknet-react/core'
-import React from 'react'
-import { useCounterContract } from '~/hooks/counter'
+import { useStarknet, useStarknetInvoke } from "@starknet-react/core";
+import React from "react";
+import { useCounterContract } from "~/hooks/counter";
 
 export function IncrementCounter() {
-  const { account } = useStarknet()
-  const { contract: counter } = useCounterContract()
-  const { invoke } = useStarknetInvoke({ contract: counter, method: 'incrementCounter' })
+  const { account } = useStarknet();
+  const { contract: counter } = useCounterContract();
+  const { invoke } = useStarknetInvoke({
+    contract: counter,
+    method: "incrementCounter",
+  });
 
   if (!account) {
-    return null
+    return null;
   }
 
   return (
@@ -16,13 +19,16 @@ export function IncrementCounter() {
       <button
         onClick={() =>
           invoke({
-            args: ['0x1'],
-            metadata: { method: 'incrementCounter', message: 'increment counter by 1' },
+            args: ["0x1"],
+            metadata: {
+              method: "incrementCounter",
+              message: "increment counter by 1",
+            },
           })
         }
       >
         Increment Counter by 1
       </button>
     </div>
-  )
+  );
 }

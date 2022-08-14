@@ -3,6 +3,13 @@ import styles from "../Authentication/authentication.module.scss";
 import { BsFillPersonCheckFill } from "react-icons/bs";
 import { Spinner, useToast } from "@chakra-ui/react";
 import { useAccount, useSignTypedData } from "wagmi";
+import {
+  generateStarkKeyPair,
+  createStarkKey,
+  starknetProvider,
+} from "src/lib/starknet-wallet";
+import { getStarkKey } from "starknet/dist/utils/ellipticCurve";
+import { BigNumberish } from "starknet/dist/utils/number";
 
 const domain = {
   name: "Sign message",
@@ -24,8 +31,14 @@ const value = {
 };
 
 export default function Authentication() {
+  enum AccountState {
+    unCreated = 0,
+    creating = 1,
+    created = 2,
+  }
   const toast = useToast();
   const { address, isConnected } = useAccount();
+  const [accountState, setAccountState] = useState<AccountState>(0);
   const statuses = ["success", "error", "warning", "info"];
   const { data, isError, isLoading, isSuccess, signTypedData } =
     useSignTypedData({
@@ -33,19 +46,34 @@ export default function Authentication() {
       types,
       value,
     });
-  console.log("Authentication");
+
+  function createAccount() {
+    setAccountState(1);
+    signTypedData();
+  }
 
   useEffect(() => {
     if (isSuccess) {
-      toast({
-        title: "Success",
-        description: "Message signed",
-        status: "success",
-        position: "top",
-        duration: 5000,
-        isClosable: true,
+      let keyPair = generateStarkKeyPair(String(data));
+      console.log(keyPair);
+      let puclicKey = getStarkKey(keyPair);
+      // console.log(puclicKey);
+      createStarkKey(puclicKey).then((result) => {
+        // console.log(result);
+        starknetProvider
+          .waitForTransaction(result.transaction_hash)
+          .then(() => {
+            setAccountState(2);
+            toast({
+              title: "Success",
+              description: "Account created successfully",
+              status: "success",
+              position: "top",
+              duration: 5000,
+              isClosable: true,
+            });
+          });
       });
-      console.log(data);
     } else if (isError) {
       toast({
         title: "Error",
@@ -58,20 +86,42 @@ export default function Authentication() {
     }
   }, [isSuccess, isError, toast, data]);
 
+  function ButtonState() {
+    if (accountState == 0) {
+      return (
+        <button className={styles.btn} onClick={() => createAccount()}>
+          <span>①&nbsp;&nbsp;&nbsp;Authentication</span>
+        </button>
+      );
+    } else if (accountState == 1) {
+      return (
+        <button className={styles.btnEnable}>
+          <span>①&nbsp;&nbsp;&nbsp;Estimated ~1 min</span>
+        </button>
+      );
+    } else {
+      return (
+        <button className={styles.btnCreated}>
+          <span>①&nbsp;&nbsp;&nbsp;Successful create</span>
+        </button>
+      );
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.iconBox}>
-        {(isLoading && <Spinner className={styles.icon} />) || (
+        {accountState == 1 ? (
+          <Spinner className={styles.icon} />
+        ) : (
           <BsFillPersonCheckFill
             className={styles.icon}
-            // style={isSuccess && { color: "#38A169" }}
+            style={accountState == 2 ? { color: "#00D6C1" } : { color: "#FFF" }}
           />
         )}
       </div>
       <div className={styles.content}>
-        <button className={styles.btn} onClick={() => signTypedData()}>
-          Authentication
-        </button>
+        <ButtonState />
         <h6>One time signature to authenticate your account</h6>
       </div>
     </div>

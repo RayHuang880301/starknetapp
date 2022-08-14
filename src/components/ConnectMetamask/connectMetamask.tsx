@@ -17,7 +17,7 @@ export default function ConnectMetamask() {
       let str = address.slice(0, 6) + `...` + address.slice(-4);
       setProfile(str);
     }
-  }, [profile]);
+  }, [address]);
 
   if (isConnected)
     return (

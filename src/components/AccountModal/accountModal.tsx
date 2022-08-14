@@ -7,7 +7,7 @@ import EnableZeroGas from "../EnableZeroGas/enableZeroGas";
 export default function AccountModal() {
   return (
     <div className={styles.modal}>
-      <div className={styles.title}>title</div>
+      <div className={styles.title}>StarkNet Hyper Account</div>
       <div className={styles.card}>
         <Authentication />
       </div>
