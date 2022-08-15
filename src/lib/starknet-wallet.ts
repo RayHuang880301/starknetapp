@@ -25,10 +25,8 @@ export const starknetProvider = new Provider({
     },
 });
 
-const ETH_DECIMALS = 18;
-
 export function nomalizeEth(rawEth: BN) {
-    return utils.formatEther(rawEth.toString('hex'));
+    return utils.formatEther(rawEth.toString());
 }
 
 
