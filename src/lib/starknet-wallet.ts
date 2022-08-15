@@ -16,8 +16,8 @@ export const EthAddress: string = process.env.NEXT_PUBLIC_ETH_ADDRESS || '';
 export const PaymasterAddress: string = process.env.NEXT_PUBLIC_PAYMASTER_ADDRESS || '';
 export const starknetProvider = new Provider({
     sequencer: {
+        // TODO: just for testnet
         network: 'goerli-alpha',
-        // network: 'mainnet-alpha',
     },
 });
 
