@@ -17,23 +17,42 @@
     "type": "struct"
   },
   {
-    "inputs": [
+    "data": [
       {
-        "name": "name",
+        "name": "from_",
         "type": "felt"
       },
       {
-        "name": "symbol",
+        "name": "to",
         "type": "felt"
       },
       {
-        "name": "recipient",
-        "type": "felt"
+        "name": "value",
+        "type": "Uint256"
       }
     ],
-    "name": "constructor",
-    "outputs": [],
-    "type": "constructor"
+    "keys": [],
+    "name": "Transfer",
+    "type": "event"
+  },
+  {
+    "data": [
+      {
+        "name": "owner",
+        "type": "felt"
+      },
+      {
+        "name": "spender",
+        "type": "felt"
+      },
+      {
+        "name": "value",
+        "type": "Uint256"
+      }
+    ],
+    "keys": [],
+    "name": "Approval",
+    "type": "event"
   },
   {
     "inputs": [],
@@ -119,6 +138,69 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "permittedMinter",
+    "outputs": [
+      {
+        "name": "minter",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "initialized",
+    "outputs": [
+      {
+        "name": "res",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_version",
+    "outputs": [
+      {
+        "name": "version",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "get_identity",
+    "outputs": [
+      {
+        "name": "identity",
+        "type": "felt"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "init_vector_len",
+        "type": "felt"
+      },
+      {
+        "name": "init_vector",
+        "type": "felt*"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
     "type": "function"
   },
   {
@@ -236,14 +318,14 @@
         "type": "Uint256"
       }
     ],
-    "name": "mint",
+    "name": "permissionedMint",
     "outputs": [],
     "type": "function"
   },
   {
     "inputs": [
       {
-        "name": "user",
+        "name": "account",
         "type": "felt"
       },
       {
@@ -251,7 +333,7 @@
         "type": "Uint256"
       }
     ],
-    "name": "burn",
+    "name": "permissionedBurn",
     "outputs": [],
     "type": "function"
   }
