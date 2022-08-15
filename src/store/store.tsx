@@ -1,6 +1,8 @@
 import { action, makeAutoObservable, makeObservable, observable } from "mobx";
 import { createContext, FC, useContext } from "react";
-import { setStarknetAccountAddress } from "../lib/Storage";
+import { useAccount } from "wagmi";
+import Storage from 'store2';
+import { setStarknetAccountAddress } from '../lib/Storage';
 import { KeyPair } from "starknet";
 
 export enum AccountStateEnum {
@@ -15,7 +17,7 @@ const starknetStore = () => {
     keyPair: null as KeyPair | undefined,
     starknetAddress: "",
     setStarknetAddress(publickey: string, starkKey: string) {
-      console.log("starknetAddress", starkKey);
+      console.log('starknetAddress', starkKey)
       this.starknetAddress = starkKey;
       setStarknetAccountAddress(publickey, starkKey);
     },
