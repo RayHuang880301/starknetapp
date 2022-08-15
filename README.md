@@ -26,6 +26,36 @@ The StarkNet Hyper Account Kit is a toolkit designed to provide the best possibl
 ##### Cairo contracts
 - [PaymasterV2Account.cairo](contracts/PaymasterV2Account.cairo)
 - [PaymasterV3Account.cairo](contracts/PaymasterV3Account.cairo)
+```Cairo
+@external
+func __execute_paymaster__{
+        syscall_ptr : felt*,
+        pedersen_ptr : HashBuiltin*,
+        range_check_ptr,
+    }(
+    ) -> ():
+    # TODO: check caller is in allowed list.
+    # TODO: transfer gas fee(ETH) to caller
+    # TODO: check max gas fee to transfer
+    # TODO: others Token paymaster calldata design
+    alloc_locals
+
+    let (__fp__, _) = get_fp_and_pc()
+    let (tx_info) = get_tx_info()
+    let (caller) = get_caller_address()
+
+    let (success) = IERC20.transfer(
+            contract_address=0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7,
+            recipient=caller,
+            amount=Uint256(tx_info.max_fee, 0))
+
+    with_attr error_message("Paymaster: transfer gas fee failed"):
+        assert success = TRUE
+    end 
+
+    return ()
+end
+```
 ##### Typescript
 Demo code in V2 version (starknet-hyper-account.ts)[src/lib/starknet-hyper-account.ts]
 ```typescript
