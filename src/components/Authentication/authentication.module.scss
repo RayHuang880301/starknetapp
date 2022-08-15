@@ -27,7 +27,7 @@
   background: #3086F6;
   box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 800;
   cursor: pointer;
 }
@@ -39,7 +39,7 @@
   background: rgba(255, 255, 255, 0.1);;
   box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 800;
   cursor: default;
 }
@@ -51,7 +51,7 @@
   background: #00D6C1;
   box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 800;
   cursor: default;
 }
@@ -68,14 +68,17 @@
   padding: 1rem;
   width: 80%;
   height: 100%;
-  h4 {
+  h6 {
     font-size: 1rem;
     font-weight: 800;
     color: white;
   }
-  h6 {
-    font-size: 0.6rem;
-    font-weight: 800;
-    color: white;
+  .account {
+    margin-top: 0.5rem;
+    text-align: start;
+    width: 100%;
+    color: #3086F6;
+    font-size: xx-small;
+    line-height: 0.8rem;
   }
 }

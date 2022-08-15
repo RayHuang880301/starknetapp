@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import styles from "../ConnectMetamask/connectMetamask.module.scss";
+import { useStore } from "../../store/store";
+import { observer, Observer } from "mobx-react";
 
-export default function ConnectMetamask() {
+function ConnectMetamask() {
+  const { starknetStore } = useStore();
   const { address, isConnected } = useAccount();
   const [profile, setProfile] = useState<String>();
   const { data: ensName } = useEnsName({ address });
@@ -19,15 +22,27 @@ export default function ConnectMetamask() {
     }
   }, [address]);
 
+  useEffect(() => {
+    if (isConnected) {
+      starknetStore.setAccountState(true, false, false);
+    }
+  }, [isConnected, starknetStore]);
+
   if (isConnected)
     return (
-      <button className={styles.address} onClick={() => disconnect()}>
-        {ensName ?? profile}
-      </button>
+      <>
+        <button className={styles.address} onClick={() => disconnect()}>
+          {ensName ?? profile}
+        </button>
+      </>
     );
   return (
-    <button className={styles.connectBtn} onClick={() => connect()}>
-      Connect
-    </button>
+    <>
+      <button className={styles.connectBtn} onClick={() => connect()}>
+        Connect
+      </button>
+    </>
   );
 }
+
+export default observer(ConnectMetamask);

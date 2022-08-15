@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "../Authentication/authentication.module.scss";
 import { BsFillPersonCheckFill } from "react-icons/bs";
 import { Spinner, useToast } from "@chakra-ui/react";
-import { useAccount, useSignTypedData } from "wagmi";
+import { useSignTypedData } from "wagmi";
 import {
   generateStarkKeyPair,
   createStarkKey,
   starknetProvider,
 } from "src/lib/starknet-wallet";
 import { getStarkKey } from "starknet/dist/utils/ellipticCurve";
-import { BigNumberish } from "starknet/dist/utils/number";
+import { useStore } from "../../store/store";
 
 const domain = {
   name: "Sign message",
@@ -32,13 +32,16 @@ const value = {
 
 export default function Authentication() {
   enum AccountState {
-    unCreated = 0,
-    creating = 1,
-    created = 2,
+    unCreated,
+    creating,
+    created,
   }
   const toast = useToast();
-  const { address, isConnected } = useAccount();
-  const [accountState, setAccountState] = useState<AccountState>(0);
+  const { starknetStore } = useStore();
+  const [starknetAddress, setStarKnetAddress] = useState<string>("");
+  const [accountState, setAccountState] = useState<AccountState>(
+    AccountState.unCreated
+  );
   const statuses = ["success", "error", "warning", "info"];
   const { data, isError, isLoading, isSuccess, signTypedData } =
     useSignTypedData({
@@ -48,22 +51,28 @@ export default function Authentication() {
     });
 
   function createAccount() {
-    setAccountState(1);
     signTypedData();
   }
 
   useEffect(() => {
+    if (accountState == AccountState.created) {
+      starknetStore.setAccountState(true, true, false);
+    }
+  }, [accountState]);
+
+  useEffect(() => {
     if (isSuccess) {
+      setAccountState(AccountState.creating);
       let keyPair = generateStarkKeyPair(String(data));
-      console.log(keyPair);
       let puclicKey = getStarkKey(keyPair);
-      // console.log(puclicKey);
       createStarkKey(puclicKey).then((result) => {
-        // console.log(result);
+        console.log(result);
+        setStarKnetAddress(result.contract_address);
+        starknetStore.starknetAddress = result.contract_address;
         starknetProvider
           .waitForTransaction(result.transaction_hash)
           .then(() => {
-            setAccountState(2);
+            setAccountState(AccountState.created);
             toast({
               title: "Success",
               description: "Account created successfully",
@@ -84,16 +93,16 @@ export default function Authentication() {
         isClosable: true,
       });
     }
-  }, [isSuccess, isError, toast, data]);
+  }, [data]);
 
   function ButtonState() {
-    if (accountState == 0) {
+    if (accountState == AccountState.unCreated) {
       return (
         <button className={styles.btn} onClick={() => createAccount()}>
           <span>①&nbsp;&nbsp;&nbsp;Authentication</span>
         </button>
       );
-    } else if (accountState == 1) {
+    } else if (accountState == AccountState.creating) {
       return (
         <button className={styles.btnEnable}>
           <span>①&nbsp;&nbsp;&nbsp;Estimated ~1 min</span>
@@ -102,7 +111,7 @@ export default function Authentication() {
     } else {
       return (
         <button className={styles.btnCreated}>
-          <span>①&nbsp;&nbsp;&nbsp;Successful create</span>
+          <span>①&nbsp;&nbsp;&nbsp;Success</span>
         </button>
       );
     }
@@ -111,22 +120,32 @@ export default function Authentication() {
   return (
     <div className={styles.container}>
       <div className={styles.iconBox}>
-        {accountState == 1 ? (
+        {accountState == AccountState.creating ? (
           <Spinner className={styles.icon} />
         ) : (
           <BsFillPersonCheckFill
             className={styles.icon}
-            style={accountState == 2 ? { color: "#00D6C1" } : { color: "#FFF" }}
+            style={
+              accountState == AccountState.created
+                ? { color: "#00D6C1" }
+                : { color: "#FFF" }
+            }
           />
         )}
       </div>
       <div className={styles.content}>
         <ButtonState />
         <h6>One time signature to authenticate your account</h6>
+        {accountState == AccountState.created ? (
+          <div className={styles.account}>
+            <div>
+              Address:
+              <br />
+              {starknetAddress}
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
-}
-function SignMsg() {
-  throw new Error("Function not implemented.");
 }

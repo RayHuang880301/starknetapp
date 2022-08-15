@@ -1,4 +1,5 @@
 import {
+    Abi,
     Account,
     Call,
     Contract,
@@ -74,4 +75,36 @@ function stringToAscii(str: string) {
         arr.push(str.charCodeAt(i));
     }
     return arr;
+}
+
+export async function zeroGasExecute(
+    starknetProvider: Provider,
+    paymasterAddress: string,
+    accountAddress: string,
+    keyPair: KeyPair,
+    calls: Call[],
+    abis: Abi[],
+) {
+    const paymasterAccount = new Account(
+        starknetProvider,
+        paymasterAddress,
+        keyPair,
+    );
+    const result = await paymasterAccount.execute([
+        {
+            contractAddress: accountAddress,
+            entrypoint: '__execute__',
+        },
+        ...calls,
+    ], [
+        [{
+            inputs: [],
+            name: '__execute__',
+            outputs: [],
+            type: 'function',
+        }],
+        ...abis,
+    ]);
+
+    return result;
 }
