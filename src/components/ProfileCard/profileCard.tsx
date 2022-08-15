@@ -10,6 +10,7 @@ import { decodeShortString } from "starknet/dist/utils/shortString";
 import { uint256ToBN } from "starknet/dist/utils/uint256";
 import Link from "next/link";
 import { Skeleton } from "@chakra-ui/react";
+import { nomalizeEth } from "src/lib/starknet-wallet";
 
 const EthAddress =
   "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
@@ -66,7 +67,7 @@ export default function ProfileCard() {
         <h4>
           Balance:&nbsp;
           {ethBalance ? (
-            <span>{uint256ToBN(ethBalance[0]).toString()}</span>
+            <span>{nomalizeEth(uint256ToBN(ethBalance[0])).toString()}</span>
           ) : (
             <Skeleton height="20px" />
           )}

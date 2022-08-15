@@ -1,3 +1,4 @@
+import { BN } from 'bn.js';
 import {
     Abi,
     Account,
@@ -21,6 +22,12 @@ export const starknetProvider = new Provider({
         // network: 'mainnet-alpha',
     },
 });
+
+const ETH_DECIMALS = 18;
+
+export function nomalizeEth(rawEth: BN) {
+    return rawEth.div(new BN('10').pow(new BN(ETH_DECIMALS)));
+}
 
 export function generateStarkKeyPair(hexString: string) {
     const pwk = number.toFelt(hexString);
