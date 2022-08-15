@@ -54,6 +54,41 @@ func __execute_paymaster__{
 end
 ```
 ##### Typescript
+Deomo code in V3 version (starknet-hyper-account.ts)[src/lib/starknet-hyper-account.ts]
+```typescript
+export async function zeroGasExecute(
+    starknetProvider: Provider,
+    paymasterAddress: string,
+    accountAddress: string,
+    keyPair: KeyPair,
+    calls: Call[],
+    abis: Abi[],
+) {
+    const account = new Account(
+        starknetProvider,
+        accountAddress,
+        keyPair,
+    );
+    const result = await account.execute([
+        {
+            contractAddress: paymasterAddress,
+            entrypoint: '__execute_paymaster__',
+        },
+        ...calls,
+    ], [
+        [{
+            inputs: [],
+            name: '__execute_paymaster__',
+            outputs: [],
+            type: 'function',
+        }],
+        ...abis,
+    ]);
+
+    return result;
+}
+```
+---
 Demo code in V2 version (starknet-hyper-account.ts)[src/lib/starknet-hyper-account.ts]
 ```typescript
 export async function zeroGasExecute(
@@ -92,41 +127,6 @@ export async function zeroGasExecute(
     ], {
         nonce,
     });
-
-    return result;
-}
-```
----
-Deomo code in V3 version (starknet-hyper-account.ts)[src/lib/starknet-hyper-account.ts]
-```typescript
-export async function zeroGasExecute(
-    starknetProvider: Provider,
-    paymasterAddress: string,
-    accountAddress: string,
-    keyPair: KeyPair,
-    calls: Call[],
-    abis: Abi[],
-) {
-    const account = new Account(
-        starknetProvider,
-        accountAddress,
-        keyPair,
-    );
-    const result = await account.execute([
-        {
-            contractAddress: paymasterAddress,
-            entrypoint: '__execute_paymaster__',
-        },
-        ...calls,
-    ], [
-        [{
-            inputs: [],
-            name: '__execute_paymaster__',
-            outputs: [],
-            type: 'function',
-        }],
-        ...abis,
-    ]);
 
     return result;
 }
