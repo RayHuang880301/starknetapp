@@ -15,6 +15,8 @@ import {
 } from 'starknet';
 import { getStarkKey } from 'starknet/dist/utils/ellipticCurve';
 import axios from 'axios';
+import { utils } from 'ethers';
+
 
 export const starknetProvider = new Provider({
     sequencer: {
@@ -26,8 +28,9 @@ export const starknetProvider = new Provider({
 const ETH_DECIMALS = 18;
 
 export function nomalizeEth(rawEth: BN) {
-    return rawEth.div(new BN('10').pow(new BN(ETH_DECIMALS)));
+    return utils.formatEther(rawEth.toString('hex'));
 }
+
 
 export function generateStarkKeyPair(hexString: string) {
     const pwk = number.toFelt(hexString);
