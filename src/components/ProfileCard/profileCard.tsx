@@ -66,9 +66,7 @@ export default function ProfileCard() {
         <h4>
           Balance:&nbsp;
           {ethBalance ? (
-            <span>
-              {nomalizeEth(uint256ToBN(ethBalance[0])).toString()}&nbsp;ETH
-            </span>
+            <span>{uint256ToBN(ethBalance[0]).toString()}&nbsp;ETH</span>
           ) : (
             <Skeleton height="20px" />
           )}

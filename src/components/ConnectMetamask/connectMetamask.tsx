@@ -37,11 +37,12 @@ function ConnectMetamask() {
       </>
     );
   return (
-    <>
+    <div className={styles.container}>
+      <h1>StarkNet Hyper Account</h1>
       <button className={styles.connectBtn} onClick={() => connect()}>
         Connect
       </button>
-    </>
+    </div>
   );
 }
 

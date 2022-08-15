@@ -7,7 +7,7 @@ import { useEthContract } from "~/hooks/eth";
 import { uint256ToBN } from "starknet/dist/utils/uint256";
 import Link from "next/link";
 import { Skeleton } from "@chakra-ui/react";
-import { nomalizeEth, PaymasterAddress, EthAddress } from "src/lib/starknet-wallet";
+import { nomalizeEth } from "src/lib/starknet-wallet";
 
 
 export default function PayMasterCard() {
@@ -32,7 +32,6 @@ export default function PayMasterCard() {
   const decodeFeltToStr = (str: BN) => {
     return decodeShortString(str.toString("hex"));
   };
-
   return (
     <div className={styles.section}>
       <h1>Pay Master</h1>
