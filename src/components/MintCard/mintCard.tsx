@@ -12,7 +12,8 @@ import { useStore } from "src/store/store";
 import { starknetProvider, zeroGasExecute } from "src/lib/starknet-wallet";
 import Erc721Abi from "~/abi/erc721.json";
 import Swal from "sweetalert2";
-import { Link, Spinner, useToast } from "@chakra-ui/react";
+import { Spinner, useToast } from "@chakra-ui/react";
+import Link from "next/link";
 
 const ExampleErc721Address =
   "0x014f90fe1c113d1054c5f420ebb3ab0e039c45d896453ed5059f39dca7e46ae0";
