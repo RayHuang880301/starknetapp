@@ -1,6 +1,5 @@
 import { useContract } from '@starknet-react/core'
 import { Abi } from 'starknet'
-
 import PayMasterAbi from '~/abi/eth.json'
 
 export function usePayMasterContract() {

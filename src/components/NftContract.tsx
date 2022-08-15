@@ -6,29 +6,28 @@ import {
 import React from "react";
 import { useNftContract } from "~/hooks/nft";
 
-export function NftContract() {
-  // const { account } = useStarknet();
-  const { contract: nft } = useNftContract();
-  const { data: name, refresh: refreshName } = useStarknetCall({
-    contract: nft,
-    method: "name",
-    args: [],
-  });
+// export function NftContract() {
+//   const { contract: nft } = useNftContract();
+//   const { data: name, refresh: refreshName } = useStarknetCall({
+//     contract: nft,
+//     method: "name",
+//     args: [],
+//   });
 
-  const { data: totalSupply, refresh: refreshTotalSupply } = useStarknetCall({
-    contract: nft,
-    method: "totalSupply",
-    args: [],
-  });
+//   const { data: totalSupply, refresh: refreshTotalSupply } = useStarknetCall({
+//     contract: nft,
+//     method: "totalSupply",
+//     args: [],
+//   });
 
-  const { data: mintPrice, refresh: refreshMintPrice } = useStarknetCall({
-    contract: nft,
-    method: "mintPrice",
-    args: [],
-  });
+//   const { data: mintPrice, refresh: refreshMintPrice } = useStarknetCall({
+//     contract: nft,
+//     method: "mintPrice",
+//     args: [],
+//   });
 
-  refreshName();
-  refreshTotalSupply();
-  refreshMintPrice();
-  return name;
-}
+//   refreshName();
+//   refreshTotalSupply();
+//   refreshMintPrice();
+//   return name;
+// }

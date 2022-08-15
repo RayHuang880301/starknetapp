@@ -23,13 +23,23 @@
 .content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: flex-start;
+  padding: 1rem 0;
   width: 80%;
   height: 100%;
   h4 {
-    font-size: 1rem;
+    width: 100%;
+    margin: 0.5rem 0;
+    font-size: 0.8rem;
     font-weight: 800;
     color: white;
+    span {
+      color: rgba(255, 255, 255, 0.7);
+    }
   }
+}
+
+.address:hover {
+  color: white;
 }
