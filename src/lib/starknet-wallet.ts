@@ -45,7 +45,7 @@ export async function createStarkKey(publicKey: string) {
         transformResponse: (res) => {
             return res
         },
-        url: '/Account.txt',
+        url: './Account.txt',
     })
 
     const AccountContractRaw = json.parse(raw.data)
