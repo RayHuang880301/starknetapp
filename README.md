@@ -27,8 +27,8 @@ The StarkNet Hyper Account Kit is a toolkit designed to provide the best possibl
 - [PaymasterV2Account.cairo](contracts/PaymasterV2Account.cairo)
 - [PaymasterV3Account.cairo](contracts/PaymasterV3Account.cairo)
 ##### Typescript
-Demo code in V2 version
-```
+Demo code in V2 version (starknet-hyper-account.ts)[src/lib/starknet-hyper-account.ts]
+```typescript
 export async function zeroGasExecute(
     starknetProvider: Provider,
     paymasterAddress: string,
@@ -70,8 +70,8 @@ export async function zeroGasExecute(
 }
 ```
 ---
-Deomo code in V3 version
-```
+Deomo code in V3 version (starknet-hyper-account.ts)[src/lib/starknet-hyper-account.ts]
+```typescript
 export async function zeroGasExecute(
     starknetProvider: Provider,
     paymasterAddress: string,
@@ -108,7 +108,7 @@ export async function zeroGasExecute(
 #### In application Wallet
 1. Connect Ethereum wallet
 2. Sign typed data(EIP712)
-```
+```typescript
 const domain = {
   name: "Sign Message",
   version: "1",
@@ -134,7 +134,7 @@ const signature = await ethereum.request({
 });
 ```
 3. Generate Stark KeyPair from signature
-```
+```typescript
 import {ec} from 'starknet';
 const keyPair = generateStarkKeyPair(String(signature));
 
@@ -146,7 +146,7 @@ function generateStarkKeyPair(hexString: string) {
 ```
 
 4. Get Account address, deploy new account if first use 
-```
+```typescript
 import { getStarkKey } from "starknet/dist/utils/ellipticCurve";
 
 const puclicKey = getStarkKey(keyPair);
