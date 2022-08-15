@@ -74,7 +74,7 @@ export default function ProfileCard() {
         <h4>
           Balance of NFT:&nbsp;
           {balanceOf ? (
-            <span>{uint256ToBN(balanceOf[0]).toString()}</span>
+            <span>{uint256ToBN(balanceOf[0]).toString()}&nbsp;ETH</span>
           ) : (
             <Skeleton height="20px" />
           )}
