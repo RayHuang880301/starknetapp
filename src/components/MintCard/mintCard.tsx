@@ -1,18 +1,26 @@
 import { useStarknetCall } from "@starknet-react/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./mintCard.module.scss";
 // import { NftContract } from "../NftContract/NftContract";
 import { useNftContract } from "~/hooks/nft";
 import { uint256ToBN } from "starknet/dist/utils/uint256";
 import { decodeShortString } from "starknet/dist/utils/shortString";
-import { BigNumberish } from "starknet/dist/utils/number";
 import BN from "bn.js";
 import { Abi, Call } from "starknet";
 import { useStore } from "src/store/store";
 import { starknetProvider, zeroGasExecute } from "src/lib/starknet-wallet";
 import Erc721Abi from "~/abi/erc721.json";
-import Swal from "sweetalert2";
-import { Spinner, useToast } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  Skeleton,
+  Spinner,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import Link from "next/link";
 
 const ExampleErc721Address =
@@ -22,7 +30,10 @@ const PaymasterAddress =
 export default function MintCard() {
   const { contract: nft } = useNftContract(ExampleErc721Address);
   const { starknetStore } = useStore();
+  const [isMinting, setIsMinting] = useState(false);
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
 
   const {
     data: name,
@@ -62,7 +73,6 @@ export default function MintCard() {
     refreshName();
     refreshSymbol();
     refreshTotalSupply();
-    console.log("refresh NFT");
   };
 
   const freeMint = async () => {
@@ -72,7 +82,8 @@ export default function MintCard() {
         entrypoint: "mint",
         calldata: [starknetStore.starknetAddress],
       };
-
+      setIsMinting(true);
+      onOpen(); // open the modal
       const erc721Result = await zeroGasExecute(
         starknetProvider,
         PaymasterAddress,
@@ -81,19 +92,21 @@ export default function MintCard() {
         [erc721Call],
         [Erc721Abi as Abi]
       );
+      await starknetProvider.waitForTransaction(erc721Result.transaction_hash);
+      console.log(erc721Result.transaction_hash);
+      setIsMinting(false);
+      onClose(); // close the modal
       toast({
         title: "Success",
-        description: "Minted successfully",
+        description: `Minted successfully! Tx:${erc721Result.transaction_hash}`,
         status: "success",
         position: "top",
-        duration: 5000,
+        duration: 20000,
         isClosable: true,
       });
-      console.log("erc721Result", erc721Result);
-      await starknetProvider.waitForTransaction(erc721Result.transaction_hash);
-      console.log("SUCCESS!");
     } catch (error: any) {
-      console.error(error);
+      setIsMinting(false);
+      onClose(); // close the modal
       toast({
         title: "Error",
         description: error.message,
@@ -105,17 +118,35 @@ export default function MintCard() {
     }
   };
 
+  function ButtonState() {
+    if (isMinting) {
+      return (
+        <button className={styles.btnDisable}>
+          <Spinner />
+        </button>
+      );
+    } else {
+      return (
+        <button onClick={() => freeMint()} className={styles.btn}>
+          Mint
+        </button>
+      );
+    }
+  }
+
   useEffect(() => {
     refreshAll();
   }, []);
 
+  useEffect(() => {
+    refreshTotalSupply();
+  }, [isMinting]);
+
   return (
-    <div className={styles.section}>
-      <h1>ERC721 NFT</h1>
-      <div className={styles.content}>
-        {nameLoading || symbolLoading || totalSupplyLoading ? (
-          <Spinner className={styles.icon} />
-        ) : (
+    <>
+      <div className={styles.section}>
+        <h1>ERC721 NFT</h1>
+        <div className={styles.content}>
           <>
             <h4>
               Contract Address:&nbsp;
@@ -129,30 +160,46 @@ export default function MintCard() {
               </Link>
             </h4>
             <h4>
-              NFT Name:&nbsp;{name && <span>{decodeFeltToStr(name[0])}</span>}
+              NFT Name:&nbsp;
+              {name ? (
+                <span>{decodeFeltToStr(name[0])}</span>
+              ) : (
+                <Skeleton height="20px" />
+              )}
             </h4>
             <h4>
               NFT Symbol:&nbsp;
-              {symbol && <span>{decodeFeltToStr(symbol[0])}</span>}
+              {symbol ? (
+                <span>{decodeFeltToStr(symbol[0])}</span>
+              ) : (
+                <Skeleton height="20px" />
+              )}
             </h4>
             <h4>
               Total Supply:&nbsp;
-              {totalSupply && (
+              {totalSupply ? (
                 <span>{uint256ToBN(totalSupply[0]).toString()}</span>
+              ) : (
+                <Skeleton height="20px" />
               )}
             </h4>
             <h4>
               Mint Price:&nbsp;<span>0 ETH</span>
             </h4>
           </>
-        )}
+        </div>
+        <ButtonState />
       </div>
-      <button onClick={() => freeMint()} className={styles.btn}>
-        Mint
-      </button>
-      {/* <button onClick={() => refreshAll()} className={styles.btn}>
-        Refresh
-      </button> */}
-    </div>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent className={styles.modalContent}>
+          <ModalCloseButton />
+          <ModalBody className={styles.modalBody}>
+            <Spinner />
+            &nbsp; Minting...
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
