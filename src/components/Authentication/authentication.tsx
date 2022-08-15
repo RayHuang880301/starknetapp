@@ -10,6 +10,7 @@ import {
 } from "src/lib/starknet-wallet";
 import { getStarkKey } from "starknet/dist/utils/ellipticCurve";
 import { useStore } from "../../store/store";
+import { getStarknetAccountAddressByPublicKey } from '../../lib/Storage';
 
 const domain = {
   name: "Sign message",
@@ -43,7 +44,7 @@ export default function Authentication() {
     AccountState.unCreated
   );
   const statuses = ["success", "error", "warning", "info"];
-  const { data, isError, isLoading, isSuccess, signTypedData } =
+  const { data: signedData, isError, isLoading, isSuccess, signTypedData } =
     useSignTypedData({
       domain,
       types,
@@ -63,26 +64,42 @@ export default function Authentication() {
   useEffect(() => {
     if (isSuccess) {
       setAccountState(AccountState.creating);
-      let keyPair = generateStarkKeyPair(String(data));
-      let puclicKey = getStarkKey(keyPair);
-      createStarkKey(puclicKey).then((result) => {
-        console.log(result);
-        setStarKnetAddress(result.contract_address);
-        starknetStore.starknetAddress = result.contract_address;
-        starknetProvider
-          .waitForTransaction(result.transaction_hash)
-          .then(() => {
-            setAccountState(AccountState.created);
-            toast({
-              title: "Success",
-              description: "Account created successfully",
-              status: "success",
-              position: "top",
-              duration: 5000,
-              isClosable: true,
+      const keyPair = generateStarkKeyPair(String(signedData));
+      starknetStore.keyPair = keyPair;
+      const puclicKey = getStarkKey(keyPair);
+      const starkKey = getStarknetAccountAddressByPublicKey(puclicKey);
+      if(starkKey) {
+        setStarKnetAddress(starkKey);
+        starknetStore.setStarknetAddress(puclicKey, starkKey);
+        setAccountState(AccountState.created);
+        toast({
+          title: "Success",
+          description: "Account created successfully",
+          status: "success",
+          position: "top",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        createStarkKey(puclicKey).then((result) => {
+          console.log(result);
+          setStarKnetAddress(result.contract_address);
+          starknetStore.setStarknetAddress(puclicKey, result.contract_address);
+          starknetProvider
+            .waitForTransaction(result.transaction_hash)
+            .then(() => {
+              setAccountState(AccountState.created);
+              toast({
+                title: "Success",
+                description: "Account created successfully",
+                status: "success",
+                position: "top",
+                duration: 5000,
+                isClosable: true,
+              });
             });
-          });
-      });
+        });
+      }
     } else if (isError) {
       toast({
         title: "Error",
@@ -93,7 +110,7 @@ export default function Authentication() {
         isClosable: true,
       });
     }
-  }, [data]);
+  }, [signedData]);
 
   function ButtonState() {
     if (accountState == AccountState.unCreated) {

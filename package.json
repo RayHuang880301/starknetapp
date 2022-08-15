@@ -26,6 +26,8 @@
     "react-icons": "^4.4.0",
     "react-redux": "^8.0.2",
     "starknet": "^4",
+    "store2": "^2.14.2",
+    "sweetalert2": "^11.4.26",
     "wagmi": "^0.6.2"
   },
   "devDependencies": {

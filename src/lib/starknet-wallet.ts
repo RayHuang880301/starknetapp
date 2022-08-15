@@ -37,7 +37,7 @@ export async function createStarkKey(publicKey: string) {
         transformResponse: (res) => {
             return res
         },
-        url: 'https://raw.githubusercontent.com/RayHuang880301/starknetapp/main/src/lib/Account.txt',
+        url: '/Account.txt',
     })
 
     const AccountContractRaw = json.parse(raw.data)
@@ -48,33 +48,6 @@ export async function createStarkKey(publicKey: string) {
     });
     const receipt = await starknetProvider.waitForTransaction(result.transaction_hash);
     return result;
-}
-
-async function main() {
-    const pwk = '0x05a5db39c6aab6f65be0fafef2997632942bac3dda5af598e968e9d214298be0';
-    const keyPair = generateStarkKeyPair(pwk);
-    let puclicKey = getStarkKey(keyPair);
-
-    console.log(puclicKey)
-    const result = await createStarkKey(puclicKey);
-    console.log(result);
-    await starknetProvider.waitForTransaction(result.transaction_hash);
-    console.log('SCC')
-}
-
-// main().then(() => {
-//     process.exit(0);
-// }).catch(err => {
-//     console.error(err);
-//     process.exit(1);
-// })
-
-function stringToAscii(str: string) {
-    let arr = [];
-    for (let i = 0; i < str.length; i++) {
-        arr.push(str.charCodeAt(i));
-    }
-    return arr;
 }
 
 export async function zeroGasExecute(
@@ -90,6 +63,12 @@ export async function zeroGasExecute(
         paymasterAddress,
         keyPair,
     );
+    const account = new Account(
+        starknetProvider,
+        accountAddress,
+        keyPair,
+    );
+    const nonce = await account.getNonce();
     const result = await paymasterAccount.execute([
         {
             contractAddress: accountAddress,
@@ -104,7 +83,9 @@ export async function zeroGasExecute(
             type: 'function',
         }],
         ...abis,
-    ]);
+    ], {
+        nonce,
+    });
 
     return result;
 }
