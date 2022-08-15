@@ -13,8 +13,11 @@ import {
     Provider,
     RawCalldata,
 } from 'starknet';
-import { getStarkKey } from 'starknet/dist/utils/ellipticCurve';
 import axios from 'axios';
+import { utils } from 'ethers';
+
+export const EthAddress = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
+export const PaymasterAddress = "0x071ddc64f54b771fe9a9fb38e9922328988da6b96674eac0e40ab39571375614";
 
 export const starknetProvider = new Provider({
     sequencer: {
@@ -23,11 +26,10 @@ export const starknetProvider = new Provider({
     },
 });
 
-const ETH_DECIMALS = 18;
-
 export function nomalizeEth(rawEth: BN) {
-    return rawEth.div(new BN('10').pow(new BN(ETH_DECIMALS)));
+    return utils.formatEther(rawEth.toString());
 }
+
 
 export function generateStarkKeyPair(hexString: string) {
     const pwk = number.toFelt(hexString);

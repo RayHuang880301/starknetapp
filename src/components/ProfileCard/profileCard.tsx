@@ -11,9 +11,8 @@ import { uint256ToBN } from "starknet/dist/utils/uint256";
 import Link from "next/link";
 import { Skeleton } from "@chakra-ui/react";
 import { nomalizeEth } from "src/lib/starknet-wallet";
+import { EthAddress } from '../../lib/starknet-wallet';
 
-const EthAddress =
-  "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
 const ExampleErc721Address =
   "0x014f90fe1c113d1054c5f420ebb3ab0e039c45d896453ed5059f39dca7e46ae0";
 

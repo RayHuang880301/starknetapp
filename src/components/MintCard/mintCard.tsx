@@ -8,7 +8,7 @@ import { decodeShortString } from "starknet/dist/utils/shortString";
 import BN from "bn.js";
 import { Abi, Call } from "starknet";
 import { useStore } from "src/store/store";
-import { starknetProvider, zeroGasExecute } from "src/lib/starknet-wallet";
+import { PaymasterAddress, starknetProvider, zeroGasExecute } from "src/lib/starknet-wallet";
 import Erc721Abi from "~/abi/erc721.json";
 import {
   Modal,
@@ -25,8 +25,7 @@ import Link from "next/link";
 
 const ExampleErc721Address =
   "0x014f90fe1c113d1054c5f420ebb3ab0e039c45d896453ed5059f39dca7e46ae0";
-const PaymasterAddress =
-  "0x071ddc64f54b771fe9a9fb38e9922328988da6b96674eac0e40ab39571375614";
+
 export default function MintCard() {
   const { contract: nft } = useNftContract(ExampleErc721Address);
   const { starknetStore } = useStore();
