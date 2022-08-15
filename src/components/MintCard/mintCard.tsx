@@ -1,14 +1,17 @@
 import { useStarknetCall } from "@starknet-react/core";
 import React, { useEffect, useState } from "react";
 import styles from "./mintCard.module.scss";
-// import { NftContract } from "../NftContract/NftContract";
 import { useNftContract } from "~/hooks/nft";
 import { uint256ToBN } from "starknet/dist/utils/uint256";
 import { decodeShortString } from "starknet/dist/utils/shortString";
 import BN from "bn.js";
 import { Abi, Call } from "starknet";
 import { useStore } from "src/store/store";
-import { PaymasterAddress, starknetProvider, zeroGasExecute } from "src/lib/starknet-wallet";
+import {
+  PaymasterAddress,
+  starknetProvider,
+  zeroGasExecute,
+} from "src/lib/starknet-wallet";
 import Erc721Abi from "~/abi/erc721.json";
 import {
   Modal,
@@ -33,8 +36,6 @@ export default function MintCard() {
   const [isMinting, setIsMinting] = useState(false);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
-
   const {
     data: name,
     loading: nameLoading,

@@ -1,17 +1,14 @@
-import { useStarknetCall, useStarknetInvoke } from "@starknet-react/core";
+import { useStarknetCall } from "@starknet-react/core";
 import React from "react";
 import { useEffect } from "react";
 import { useEthContract } from "~/hooks/eth";
 import { useNftContract } from "~/hooks/nft";
-import BN from "bn.js";
 import styles from "./profileCard.module.scss";
 import { useStore } from "../../store/store";
-import { decodeShortString } from "starknet/dist/utils/shortString";
 import { uint256ToBN } from "starknet/dist/utils/uint256";
 import Link from "next/link";
 import { Skeleton } from "@chakra-ui/react";
-import { nomalizeEth } from "src/lib/starknet-wallet";
-import { EthAddress } from '../../lib/starknet-wallet';
+import { EthAddress } from "../../lib/starknet-wallet";
 
 const ExampleErc721Address =
   "0x014f90fe1c113d1054c5f420ebb3ab0e039c45d896453ed5059f39dca7e46ae0";

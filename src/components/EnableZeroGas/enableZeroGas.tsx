@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../EnableZeroGas/enableZeroGas.module.scss";
 import { BsLightningChargeFill } from "react-icons/bs";
-import { Spinner } from "@chakra-ui/react";
 import { AccountStateEnum, useStore } from "../../store/store";
 import { observer } from "mobx-react";
 
