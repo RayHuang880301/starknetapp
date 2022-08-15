@@ -8,6 +8,7 @@ import { uint256ToBN } from "starknet/dist/utils/uint256";
 import Link from "next/link";
 import { Skeleton } from "@chakra-ui/react";
 import { nomalizeEth } from "src/lib/starknet-wallet";
+import { ethers } from "ethers";
 
 const EthAddress =
   "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
@@ -36,7 +37,6 @@ export default function PayMasterCard() {
   const decodeFeltToStr = (str: BN) => {
     return decodeShortString(str.toString("hex"));
   };
-
   return (
     <div className={styles.section}>
       <h1>Pay Master</h1>
@@ -55,9 +55,15 @@ export default function PayMasterCard() {
         <h4>
           Balance:&nbsp;
           {balance ? (
-            <span>
-              {nomalizeEth(uint256ToBN(balance[0])).toString()}&nbsp;ETH
-            </span>
+            (console.log(balance[0]),
+            (
+              <span>
+                {ethers.utils
+                  .formatUnits(uint256ToBN(balance[0]).toString())
+                  .slice(0, 8)}
+                &nbsp;ETH
+              </span>
+            ))
           ) : (
             <Skeleton height="20px" />
           )}

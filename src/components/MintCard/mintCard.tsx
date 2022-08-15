@@ -30,6 +30,7 @@ const PaymasterAddress =
 export default function MintCard() {
   const { contract: nft } = useNftContract(ExampleErc721Address);
   const { starknetStore } = useStore();
+  const [txHash, setTxHash] = useState("");
   const [isMinting, setIsMinting] = useState(false);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -92,6 +93,7 @@ export default function MintCard() {
         [erc721Call],
         [Erc721Abi as Abi]
       );
+      setTxHash(erc721Result.transaction_hash);
       await starknetProvider.waitForTransaction(erc721Result.transaction_hash);
       console.log(erc721Result.transaction_hash);
       setIsMinting(false);
@@ -197,6 +199,7 @@ export default function MintCard() {
           <ModalBody className={styles.modalBody}>
             <Spinner />
             &nbsp; Minting...
+            <br />
           </ModalBody>
         </ModalContent>
       </Modal>

@@ -14,7 +14,7 @@ import { getStarknetAccountAddressByPublicKey } from "../../lib/Storage";
 import Link from "next/link";
 
 const domain = {
-  name: "Sign message",
+  name: "Sign Message",
   version: "1",
   chainId: 1,
   verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
@@ -23,13 +23,13 @@ const domain = {
 const types = {
   Main: [
     { name: "Authentication", type: "string" },
-    { name: "action", type: "string" },
+    { name: "Action", type: "string" },
   ],
 };
 
 const value = {
-  Authentication: "StarkNet ...",
-  action: "Access to create your account",
+  Authentication: "StarkNet Hyper Account",
+  Action: "Access to generate your in-app starknet wallet",
 };
 
 export default function Authentication() {
@@ -158,7 +158,7 @@ export default function Authentication() {
       </div>
       <div className={styles.content}>
         <ButtonState />
-        <h6>One time signature to authenticate your account</h6>
+        <h6>One time signature to generate your in-app starknet wallet</h6>
         {accountState == AccountState.created ? (
           <div className={styles.account}>
             <div>
