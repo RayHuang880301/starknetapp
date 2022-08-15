@@ -11,9 +11,9 @@ When users interact with the whitelisted gas-free contracts that specified by pr
 
 ### Description
 Based on the foregoing, when developers apply StarkNet Hyper Account in their protocols, users can use any application on StarkNet without switching wallets or networks, as long as they use the MetaMask wallet, which greatly improves the user experience. Even more additional wallets can be supported, such as WalletConnect, Coinbase wallet, and so on. Users can generate a StarkNet account with key pairs based on their Ethereum address and continue to use their original wallet without installing a new wallet or changing RPC networks.
-
+<br>
 Furthermore, StarkNet Hyper Account Kit includes the pay master function; imagine how appealing it is to not have to pay gas fee when interacting with protocols on blockchain; StarkNet Hyper Account Kit did it.
-
+<br>
 For example, through the Pay-Master function, users can enjoy real free mint; the protocol can also provide users who register accounts in their application with the Pay Master function, or add a whitelist to pay gas fees for specific users and applications. It can be used in a variety of different scenarios depending on your protocol. StarkNet Hyper Account Kit assembled in-app wallet and pay-master functions that are extremely user friendly and desired!
 
 ### Technical Docs
