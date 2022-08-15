@@ -6,6 +6,7 @@ import { decodeShortString } from "starknet/dist/utils/shortString";
 import { useEthContract } from "~/hooks/eth";
 import { uint256ToBN } from "starknet/dist/utils/uint256";
 import Link from "next/link";
+import { Skeleton } from "@chakra-ui/react";
 
 const EthAddress =
   "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
@@ -52,7 +53,11 @@ export default function PayMasterCard() {
         </h4>
         <h4>
           Balance:&nbsp;
-          {balance && <span>{uint256ToBN(balance[0]).toString()}</span>}
+          {balance ? (
+            <span>{uint256ToBN(balance[0]).toString()}</span>
+          ) : (
+            <Skeleton height="20px" />
+          )}
         </h4>
       </div>
     </div>

@@ -16,6 +16,7 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  Skeleton,
   Spinner,
   useDisclosure,
   useToast,
@@ -72,7 +73,6 @@ export default function MintCard() {
     refreshName();
     refreshSymbol();
     refreshTotalSupply();
-    console.log("refresh NFT");
   };
 
   const freeMint = async () => {
@@ -93,14 +93,15 @@ export default function MintCard() {
         [Erc721Abi as Abi]
       );
       await starknetProvider.waitForTransaction(erc721Result.transaction_hash);
+      console.log(erc721Result.transaction_hash);
       setIsMinting(false);
       onClose(); // close the modal
       toast({
         title: "Success",
-        description: "Minted successfully",
+        description: `Minted successfully! Tx:${erc721Result.transaction_hash}`,
         status: "success",
         position: "top",
-        duration: 5000,
+        duration: 20000,
         isClosable: true,
       });
     } catch (error: any) {
@@ -138,7 +139,7 @@ export default function MintCard() {
   }, []);
 
   useEffect(() => {
-    refreshAll();
+    refreshTotalSupply();
   }, [isMinting]);
 
   return (
@@ -146,41 +147,46 @@ export default function MintCard() {
       <div className={styles.section}>
         <h1>ERC721 NFT</h1>
         <div className={styles.content}>
-          {nameLoading || symbolLoading || totalSupplyLoading ? (
-            <Spinner className={styles.icon} />
-          ) : (
-            <>
-              <h4>
-                Contract Address:&nbsp;
-                <br />
-                <Link
-                  href={`https://goerli.voyager.online/contract/${ExampleErc721Address}`}
-                >
-                  <a target="_blank" rel="noreferrer">
-                    <span className={styles.address}>
-                      {ExampleErc721Address}
-                    </span>
-                  </a>
-                </Link>
-              </h4>
-              <h4>
-                NFT Name:&nbsp;{name && <span>{decodeFeltToStr(name[0])}</span>}
-              </h4>
-              <h4>
-                NFT Symbol:&nbsp;
-                {symbol && <span>{decodeFeltToStr(symbol[0])}</span>}
-              </h4>
-              <h4>
-                Total Supply:&nbsp;
-                {totalSupply && (
-                  <span>{uint256ToBN(totalSupply[0]).toString()}</span>
-                )}
-              </h4>
-              <h4>
-                Mint Price:&nbsp;<span>0 ETH</span>
-              </h4>
-            </>
-          )}
+          <>
+            <h4>
+              Contract Address:&nbsp;
+              <br />
+              <Link
+                href={`https://goerli.voyager.online/contract/${ExampleErc721Address}`}
+              >
+                <a target="_blank" rel="noreferrer">
+                  <span className={styles.address}>{ExampleErc721Address}</span>
+                </a>
+              </Link>
+            </h4>
+            <h4>
+              NFT Name:&nbsp;
+              {name ? (
+                <span>{decodeFeltToStr(name[0])}</span>
+              ) : (
+                <Skeleton height="20px" />
+              )}
+            </h4>
+            <h4>
+              NFT Symbol:&nbsp;
+              {symbol ? (
+                <span>{decodeFeltToStr(symbol[0])}</span>
+              ) : (
+                <Skeleton height="20px" />
+              )}
+            </h4>
+            <h4>
+              Total Supply:&nbsp;
+              {totalSupply ? (
+                <span>{uint256ToBN(totalSupply[0]).toString()}</span>
+              ) : (
+                <Skeleton height="20px" />
+              )}
+            </h4>
+            <h4>
+              Mint Price:&nbsp;<span>0 ETH</span>
+            </h4>
+          </>
         </div>
         <ButtonState />
       </div>
