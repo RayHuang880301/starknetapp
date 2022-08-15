@@ -62,34 +62,26 @@ export async function zeroGasExecute(
     calls: Call[],
     abis: Abi[],
 ) {
-    const paymasterAccount = new Account(
-        starknetProvider,
-        paymasterAddress,
-        keyPair,
-    );
     const account = new Account(
         starknetProvider,
         accountAddress,
         keyPair,
     );
-    const nonce = await account.getNonce();
-    const result = await paymasterAccount.execute([
+    const result = await account.execute([
         {
-            contractAddress: accountAddress,
-            entrypoint: '__execute__',
+            contractAddress: paymasterAddress,
+            entrypoint: '__execute_paymaster__',
         },
         ...calls,
     ], [
         [{
             inputs: [],
-            name: '__execute__',
+            name: '__execute_paymaster__',
             outputs: [],
             type: 'function',
         }],
         ...abis,
-    ], {
-        nonce,
-    });
+    ]);
 
     return result;
 }
