@@ -21,11 +21,141 @@ The StarkNet Hyper Account Kit is a toolkit designed to provide the best possibl
 
 ### Technical Docs
 
+#### Paymaster
 
+##### Cairo contracts
+- [PaymasterV2Account.cairo](contracts/PaymasterV2Account.cairo)
+- [PaymasterV3Account.cairo](contracts/PaymasterV3Account.cairo)
+##### Typescript
+Demo code in V2 version
+```
+export async function zeroGasExecute(
+    starknetProvider: Provider,
+    paymasterAddress: string,
+    accountAddress: string,
+    keyPair: KeyPair,
+    calls: Call[],
+    abis: Abi[],
+) {
+    const paymasterAccount = new Account(
+        starknetProvider,
+        paymasterAddress,
+        keyPair,
+    );
+    const account = new Account(
+        starknetProvider,
+        accountAddress,
+        keyPair,
+    );
+    const nonce = await account.getNonce();
+    const result = await paymasterAccount.execute([
+        {
+            contractAddress: accountAddress,
+            entrypoint: '__execute__',
+        },
+        ...calls,
+    ], [
+        [{
+            inputs: [],
+            name: '__execute__',
+            outputs: [],
+            type: 'function',
+        }],
+        ...abis,
+    ], {
+        nonce,
+    });
 
+    return result;
+}
+```
+---
+Deomo code in V3 version
+```
+export async function zeroGasExecute(
+    starknetProvider: Provider,
+    paymasterAddress: string,
+    accountAddress: string,
+    keyPair: KeyPair,
+    calls: Call[],
+    abis: Abi[],
+) {
+    const account = new Account(
+        starknetProvider,
+        accountAddress,
+        keyPair,
+    );
+    const result = await account.execute([
+        {
+            contractAddress: paymasterAddress,
+            entrypoint: '__execute_paymaster__',
+        },
+        ...calls,
+    ], [
+        [{
+            inputs: [],
+            name: '__execute_paymaster__',
+            outputs: [],
+            type: 'function',
+        }],
+        ...abis,
+    ]);
 
+    return result;
+}
+```
 
-This is an example showing how to use StarkNet React with Next.js
+#### In application Wallet
+1. Connect Ethereum wallet
+2. Sign typed data(EIP712)
+```
+const domain = {
+  name: "Sign Message",
+  version: "1",
+  chainId: chain.goerli.id,
+  verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+};
+
+const types = {
+  Main: [
+    { name: "Authentication", type: "string" },
+    { name: "Action", type: "string" },
+  ],
+};
+
+const value = {
+  Authentication: "StarkNet Hyper Account",
+  Action: "Access to generate your in-app starknet wallet",
+};
+
+const signature = await ethereum.request({
+    method: 'eth_signTypedData_v4',
+    params: [from, JSON.stringify({domain, types, value})],
+});
+```
+3. Generate Stark KeyPair from signature
+```
+import {ec} from 'starknet';
+const keyPair = generateStarkKeyPair(String(signature));
+
+function generateStarkKeyPair(hexString: string) {
+    const pwk = number.toFelt(hexString);
+    const keyPair = ec.getKeyPair(pwk);
+    return keyPair;
+}
+```
+
+4. Get Account address, deploy new account if first use 
+```
+import { getStarkKey } from "starknet/dist/utils/ellipticCurve";
+
+const puclicKey = getStarkKey(keyPair);
+const { contract_address } = await starknetProvider.deployContract({
+    contract: AccountContractRaw,
+    constructorCalldata: [publicKey],
+    addressSalt: publicKey
+});
+```
 
 ## Getting Started
 
