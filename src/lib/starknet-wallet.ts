@@ -16,8 +16,8 @@ import {
 import axios from 'axios';
 import { utils } from 'ethers';
 
-export const EthAddress = process.env.NEXT_PUBLIC_ETH_ADDRESS;
-export const PaymasterAddress = process.env.NEXT_PUBLIC_PAYMASTER_ADDRESS;
+export const EthAddress: string = process.env.NEXT_PUBLIC_ETH_ADDRESS || '';
+export const PaymasterAddress: string = process.env.NEXT_PUBLIC_PAYMASTER_ADDRESS || '';
 export const starknetProvider = new Provider({
     sequencer: {
         network: 'goerli-alpha',

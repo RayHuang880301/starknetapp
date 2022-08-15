@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-console.log(process.env)
+console.log(`ENVIROMENT=${process.env.ENV}`)
 const nextConfig = {
   reactStrictMode: true,
   basePath: process.env.BasePath,
