@@ -35,8 +35,8 @@ func __execute_paymaster__{
     }(
     ) -> ():
     # TODO: check caller is in allowed list.
+    # TODO: get gas fee usage
     # TODO: transfer gas fee(ETH) to caller
-    # TODO: check max gas fee to transfer
     # TODO: others Token paymaster calldata design
     alloc_locals
 
