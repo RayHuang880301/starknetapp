@@ -7,7 +7,7 @@ import { useEthContract } from "~/hooks/eth";
 import { uint256ToBN } from "starknet/dist/utils/uint256";
 import Link from "next/link";
 import { Skeleton } from "@chakra-ui/react";
-import { nomalizeEth } from "src/lib/starknet-wallet";
+import { EthAddress, nomalizeEth, PaymasterAddress } from "src/lib/starknet-wallet";
 
 
 export default function PayMasterCard() {
