@@ -11,7 +11,7 @@ import {
   PaymasterAddress,
   starknetProvider,
   zeroGasExecute,
-} from "src/lib/starknet-wallet";
+} from "src/lib/starknet-hyper-account";
 import Erc721Abi from "~/abi/erc721.json";
 import {
   Modal,

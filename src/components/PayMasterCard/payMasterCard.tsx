@@ -11,7 +11,7 @@ import {
   EthAddress,
   nomalizeEth,
   PaymasterAddress,
-} from "src/lib/starknet-wallet";
+} from "src/lib/starknet-hyper-account";
 
 export default function PayMasterCard() {
   const { contract: eth } = useEthContract(EthAddress);

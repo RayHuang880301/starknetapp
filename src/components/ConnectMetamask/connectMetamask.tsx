@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useEnsName, useDisconnect, chain, useSwitchNetwork } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import styles from "../ConnectMetamask/connectMetamask.module.scss";
 import { useStore } from "../../store/store";
@@ -10,10 +10,17 @@ function ConnectMetamask() {
   const { address, isConnected } = useAccount();
   const [profile, setProfile] = useState<String>();
   const { data: ensName } = useEnsName({ address });
-  const { connect } = useConnect({
+  const { data: connectData, connect } = useConnect({
     connector: new InjectedConnector(),
   });
+  const { chains, switchNetwork } = useSwitchNetwork();
   const { disconnect } = useDisconnect();
+
+  useEffect(() => {
+		if(connectData?.chain.id != chain.goerli.id) {
+			switchNetwork?.(chain.goerli.id);
+		}
+	}, [connectData]);
 
   useEffect(() => {
     if (address) {

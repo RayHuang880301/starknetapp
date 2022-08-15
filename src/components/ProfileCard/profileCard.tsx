@@ -8,8 +8,8 @@ import { useStore } from "../../store/store";
 import { uint256ToBN } from "starknet/dist/utils/uint256";
 import Link from "next/link";
 import { Skeleton } from "@chakra-ui/react";
-import { nomalizeEth } from "src/lib/starknet-wallet";
-import { EthAddress } from "../../lib/starknet-wallet";
+import { nomalizeEth } from "src/lib/starknet-hyper-account";
+import { EthAddress } from "../../lib/starknet-hyper-account";
 
 const ExampleErc721Address =
   "0x014f90fe1c113d1054c5f420ebb3ab0e039c45d896453ed5059f39dca7e46ae0";

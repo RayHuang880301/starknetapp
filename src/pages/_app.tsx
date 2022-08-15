@@ -16,7 +16,8 @@ import { publicProvider } from "wagmi/providers/public";
 import { ChakraProvider } from "@chakra-ui/react";
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon],
+  // TODO: only for testnet
+  [chain.goerli],
   [publicProvider()]
 );
 

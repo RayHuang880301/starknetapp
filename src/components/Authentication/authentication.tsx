@@ -2,12 +2,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import styles from "../Authentication/authentication.module.scss";
 import { BsFillPersonCheckFill } from "react-icons/bs";
 import { Spinner, useToast } from "@chakra-ui/react";
-import { useSignTypedData } from "wagmi";
+import { chain, useSignTypedData } from "wagmi";
 import {
   generateStarkKeyPair,
   createStarkKey,
   starknetProvider,
-} from "src/lib/starknet-wallet";
+} from "src/lib/starknet-hyper-account";
 import { getStarkKey } from "starknet/dist/utils/ellipticCurve";
 import { useStore } from "../../store/store";
 import { getStarknetAccountAddressByPublicKey } from "../../lib/Storage";
@@ -16,7 +16,7 @@ import Link from "next/link";
 const domain = {
   name: "Sign Message",
   version: "1",
-  chainId: 1,
+  chainId: chain.goerli.id,
   verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
 };
 
