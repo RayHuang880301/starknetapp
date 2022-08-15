@@ -7,8 +7,11 @@ import { useEthContract } from "~/hooks/eth";
 import { uint256ToBN } from "starknet/dist/utils/uint256";
 import Link from "next/link";
 import { Skeleton } from "@chakra-ui/react";
-import { EthAddress, nomalizeEth, PaymasterAddress } from "src/lib/starknet-wallet";
-
+import {
+  EthAddress,
+  nomalizeEth,
+  PaymasterAddress,
+} from "src/lib/starknet-wallet";
 
 export default function PayMasterCard() {
   const { contract: eth } = useEthContract(EthAddress);
@@ -20,9 +23,7 @@ export default function PayMasterCard() {
   } = useStarknetCall({
     contract: eth,
     method: "balanceOf",
-    args: [
-      PaymasterAddress,
-    ],
+    args: [PaymasterAddress],
   });
 
   useEffect(() => {
@@ -51,7 +52,8 @@ export default function PayMasterCard() {
           Balance:&nbsp;
           {balance ? (
             <span>
-              {nomalizeEth(uint256ToBN(balance[0])).toString()}&nbsp;ETH
+              {nomalizeEth(uint256ToBN(balance[0])).toString().slice(0, 8)}
+              &nbsp;ETH
             </span>
           ) : (
             <Skeleton height="20px" />
