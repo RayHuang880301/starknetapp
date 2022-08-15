@@ -54,7 +54,7 @@ func __execute_paymaster__{
 end
 ```
 ##### Typescript
-Deomo code in V3 version (starknet-hyper-account.ts)[src/lib/starknet-hyper-account.ts]
+Deomo code in V3 version (starknet-hyper-account.ts)[https://github.com/RayHuang880301/starknetapp/blob/v3/src/lib/starknet-hyper-account.ts#L57]
 ```typescript
 export async function zeroGasExecute(
     starknetProvider: Provider,
