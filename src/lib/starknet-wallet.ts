@@ -3,15 +3,11 @@ import {
     Abi,
     Account,
     Call,
-    Contract,
-    // defaultProvider,
     ec,
-    Invocation,
     json,
     KeyPair,
     number,
     Provider,
-    RawCalldata,
 } from 'starknet';
 import axios from 'axios';
 import { utils } from 'ethers';
