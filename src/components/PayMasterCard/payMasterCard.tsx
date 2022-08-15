@@ -55,7 +55,9 @@ export default function PayMasterCard() {
         <h4>
           Balance:&nbsp;
           {balance ? (
-            <span>{nomalizeEth(uint256ToBN(balance[0])).toString()}&nbsp;ETH</span>
+            <span>
+              {nomalizeEth(uint256ToBN(balance[0])).toString()}&nbsp;ETH
+            </span>
           ) : (
             <Skeleton height="20px" />
           )}

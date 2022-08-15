@@ -10,7 +10,8 @@ import {
 } from "src/lib/starknet-wallet";
 import { getStarkKey } from "starknet/dist/utils/ellipticCurve";
 import { useStore } from "../../store/store";
-import { getStarknetAccountAddressByPublicKey } from '../../lib/Storage';
+import { getStarknetAccountAddressByPublicKey } from "../../lib/Storage";
+import Link from "next/link";
 
 const domain = {
   name: "Sign message",
@@ -44,12 +45,17 @@ export default function Authentication() {
     AccountState.unCreated
   );
   const statuses = ["success", "error", "warning", "info"];
-  const { data: signedData, isError, isLoading, isSuccess, signTypedData } =
-    useSignTypedData({
-      domain,
-      types,
-      value,
-    });
+  const {
+    data: signedData,
+    isError,
+    isLoading,
+    isSuccess,
+    signTypedData,
+  } = useSignTypedData({
+    domain,
+    types,
+    value,
+  });
 
   function createAccount() {
     signTypedData();
@@ -68,7 +74,7 @@ export default function Authentication() {
       starknetStore.keyPair = keyPair;
       const puclicKey = getStarkKey(keyPair);
       const starkKey = getStarknetAccountAddressByPublicKey(puclicKey);
-      if(starkKey) {
+      if (starkKey) {
         setStarKnetAddress(starkKey);
         starknetStore.setStarknetAddress(puclicKey, starkKey);
         setAccountState(AccountState.created);
@@ -158,7 +164,13 @@ export default function Authentication() {
             <div>
               Address:
               <br />
-              {starknetAddress}
+              <Link
+                href={`https://goerli.voyager.online/contract/${starknetAddress}`}
+              >
+                <a target="_blank" rel="noreferrer">
+                  <span className={styles.address}>{starknetAddress}</span>
+                </a>
+              </Link>
             </div>
           </div>
         ) : null}
